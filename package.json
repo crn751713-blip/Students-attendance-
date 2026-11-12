@@ -1,0 +1,12 @@
+{
+  "name": "student-attendance",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"dev": "vercel dev"},
+  "dependencies": {
+    "firebase": "^12.5.0",
+    "firebase-admin": "^13.5.0"
+  },
+  "devDependencies": {"vercel": "^48.0.0"}
+}
