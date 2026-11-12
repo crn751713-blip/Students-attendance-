@@ -1,304 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Attendance System</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Attendance System</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <header>
+    <h2>Student Attendance</h2>
+    <button id="logoutBtn" class="hidden">Logout</button>
+  </header>
+
+  <main>
+
     <!-- LOGIN -->
-    <section id="loginSection" class="login-container">
-        <div class="login-box">
-            <h1>Student Attendance</h1>
-            <p>Welcome back!</p>
+    <section id="authSection" class="card">
+      <h2>Welcome</h2>
 
-            <form id="loginForm">
-                <label>Email</label>
-                <input
-                    type="email"
-                    id="loginEmail"
-                    placeholder="Enter your email"
-                    required
-                >
+      <div id="loginForm">
+        <h3>Login</h3>
 
-                <label>Password</label>
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter password"
-                    required
-                >
+        <input id="loginEmail" type="email"
+          placeholder="Email" required>
 
-                <button type="submit">Login</button>
-                <p id="loginMessage"></p>
-            </form>
-        </div>
+        <input id="loginPassword" type="password"
+          placeholder="Password" required>
+
+        <button id="loginBtn">Login</button>
+
+        <p>
+          Don't have an account?
+          <a href="#" id="showRegister">Register</a>
+        </p>
+      </div>
+
+      <div id="registerForm" class="hidden">
+        <h3>Create Student Account</h3>
+
+        <input id="regName" type="text"
+          placeholder="Full Name">
+
+        <input id="regStudentId" type="text"
+          placeholder="Student ID">
+
+        <input id="regEmail" type="email"
+          placeholder="Email">
+
+        <input id="regPassword" type="password"
+          placeholder="Password">
+
+        <button id="registerBtn">Register</button>
+
+        <p>
+          Already have an account?
+          <a href="#" id="showLogin">Login</a>
+        </p>
+      </div>
     </section>
 
-    <!-- MAIN APP -->
+    <!-- DASHBOARD -->
     <section id="appSection" class="hidden">
 
-        <header>
-            <h1>Student Attendance System</h1>
+      <div class="card">
+        <h2 id="welcomeText">Dashboard</h2>
+        <p id="roleText"></p>
+      </div>
 
-            <div class="user-info">
-                <span id="userName">User</span>
-                <span id="userRole">Student</span>
-                <button id="logoutBtn">Logout</button>
-            </div>
-        </header>
+      <nav>
+        <button data-page="dashboard">Dashboard</button>
+        <button data-page="attendance">Attendance</button>
+        <button data-page="history">History</button>
+        <button data-page="reports">Reports</button>
+        <button data-page="profile">Profile</button>
+        <button data-page="students" id="studentsNav" class="hidden">
+          Students
+        </button>
+      </nav>
 
-        <nav>
-            <button data-page="dashboardPage">Dashboard</button>
-            <button data-page="attendancePage">Attendance</button>
-            <button data-page="historyPage">History</button>
-            <button data-page="reportsPage">Reports</button>
-            <button data-page="profilePage">Profile</button>
-            <button data-page="studentsPage" id="adminNav">
-                Manage Students
+      <!-- DASHBOARD PAGE -->
+      <section id="dashboardPage" class="page">
+        <div class="card">
+          <h2>Overview</h2>
+          <p id="dashboardInfo">Loading...</p>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE PAGE -->
+      <section id="attendancePage" class="page hidden">
+        <div class="card">
+          <h2>Attendance</h2>
+
+          <div id="adminAttendance" class="hidden">
+            <h3>Mark Student Attendance</h3>
+
+            <select id="attendanceStudent">
+              <option value="">Select Student</option>
+            </select>
+
+            <select id="attendanceStatus">
+              <option value="present">Present</option>
+              <option value="absent">Absent</option>
+              <option value="late">Late</option>
+              <option value="permission">Permission</option>
+            </select>
+
+            <input id="attendanceNote"
+              placeholder="Note (optional)">
+
+            <button id="saveAttendanceBtn">
+              Save Attendance
             </button>
-        </nav>
-
-        <main>
-
-            <!-- DASHBOARD -->
-            <section id="dashboardPage" class="page">
-
-                <h2>Dashboard</h2>
-
-                <div class="dashboard-grid">
-
-                    <div class="card">
-                        <h3>Total Students</h3>
-                        <p id="totalStudents">0</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Present</h3>
-                        <p id="presentStudents">0</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Absent</h3>
-                        <p id="absentStudents">0</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>Attendance Rate</h3>
-                        <p id="attendancePercentage">0%</p>
-                    </div>
-
-                </div>
-
-                <h3>Today's Date</h3>
-                <p id="currentDate"></p>
-
-            </section>
-
-            <!-- ATTENDANCE -->
-            <section id="attendancePage" class="page hidden">
-
-                <h2>Student Attendance</h2>
-
-                <input type="date" id="attendanceDate">
-
-                <button id="markAllPresent">
-                    Mark All Present
-                </button>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student ID</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="attendanceList"></tbody>
-                    </table>
-                </div>
-
-            </section>
-
-            <!-- HISTORY -->
-            <section id="historyPage" class="page hidden">
-
-                <h2>Attendance History</h2>
-
-                <input type="date" id="historyDate">
-
-                <button id="searchHistory">Search</button>
-
-                <button id="exportCSV">Export CSV</button>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Student</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="historyList"></tbody>
-                    </table>
-                </div>
-
-            </section>
-
-            <!-- REPORTS -->
-            <section id="reportsPage" class="page hidden">
-
-                <h2>Reports</h2>
-
-                <form id="reportForm">
-
-                    <input
-                        type="text"
-                        id="reportTitle"
-                        placeholder="Report title"
-                        required
-                    >
-
-                    <textarea
-                        id="reportDescription"
-                        placeholder="Report description"
-                        required
-                    ></textarea>
-
-                    <label>Upload Image</label>
-
-                    <input
-                        type="file"
-                        id="reportImage"
-                        accept="image/*"
-                    >
-
-                    <button type="submit">Submit Report</button>
-
-                </form>
-
-                <div id="reportList"></div>
-
-            </section>
-
-            <!-- PROFILE -->
-            <section id="profilePage" class="page hidden">
-
-                <h2>My Profile</h2>
-
-                <div class="profile-box">
-
-                    <img
-                        id="profileImage"
-                        src=""
-                        alt="Profile"
-                    >
-
-                    <input
-                        type="file"
-                        id="profilePhoto"
-                        accept="image/*"
-                    >
-
-                    <label>Full Name</label>
-
-                    <input
-                        type="text"
-                        id="profileName"
-                        placeholder="Full name"
-                    >
-
-                    <label>Telegram Contact</label>
-
-                    <input
-                        type="text"
-                        id="telegramContact"
-                        placeholder="Telegram username"
-                    >
-
-                    <button id="saveProfile">
-                        Save Profile
-                    </button>
-
-                </div>
-
-                <h3>Change Password</h3>
-
-                <form id="passwordForm">
-
-                    <input
-                        type="password"
-                        id="newPassword"
-                        placeholder="New password"
-                        required
-                    >
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm password"
-                        required
-                    >
-
-                    <button type="submit">
-                        Change Password
-                    </button>
-
-                </form>
-
-            </section>
-
-            <!-- ADMIN STUDENT MANAGEMENT -->
-            <section id="studentsPage" class="page hidden">
-
-                <h2>Manage Students</h2>
-
-                <input
-                    type="text"
-                    id="studentName"
-                    placeholder="Student name"
-                >
-
-                <input
-                    type="text"
-                    id="studentID"
-                    placeholder="Student ID"
-                >
-
-                <button id="addStudent">
-                    Add Student
-                </button>
-
-                <div class="table-container">
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student ID</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="studentList"></tbody>
-                    </table>
-
-                </div>
-
-            </section>
-
-        </main>
+          </div>
+
+          <div id="studentAttendance">
+            <p>Attendance information will appear here.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HISTORY PAGE -->
+      <section id="historyPage" class="page hidden">
+        <div class="card">
+          <h2>Attendance History</h2>
+          <div id="historyList"></div>
+        </div>
+      </section>
+
+      <!-- REPORTS PAGE -->
+      <section id="reportsPage" class="page hidden">
+        <div class="card">
+          <h2>Reports</h2>
+
+          <div id="reportForm">
+            <h3>Create Report</h3>
+
+            <input id="reportTitle"
+              placeholder="Report Title">
+
+            <textarea id="reportDescription"
+              placeholder="Description"></textarea>
+
+            <label>Upload Evidence Photo</label>
+            <input id="reportImage" type="file"
+              accept="image/*">
+
+            <button id="submitReportBtn">
+              Submit Report
+            </button>
+          </div>
+
+          <hr>
+
+          <h3>Report List</h3>
+          <div id="reportsList"></div>
+        </div>
+      </section>
+
+      <!-- PROFILE PAGE -->
+      <section id="profilePage" class="page hidden">
+        <div class="card">
+          <h2>My Profile</h2>
+
+          <img id="profilePreview"
+            class="profile-image"
+            src=""
+            alt="Profile">
+
+          <input id="profileImage"
+            type="file" accept="image/*">
+
+          <input id="profileName"
+            placeholder="Full Name">
+
+          <input id="profilePhone"
+            placeholder="Phone Number">
+
+          <p id="profileEmail"></p>
+          <p id="profileStudentId"></p>
+
+          <button id="saveProfileBtn">
+            Save Profile
+          </button>
+        </div>
+      </section>
+
+      <!-- STUDENTS PAGE -->
+      <section id="studentsPage" class="page hidden">
+        <div class="card">
+          <h2>Manage Students</h2>
+          <div id="studentsList"></div>
+        </div>
+      </section>
 
     </section>
 
-    <script type="module" src="script.js"></script>
+  </main>
 
+  <div id="message"></div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
